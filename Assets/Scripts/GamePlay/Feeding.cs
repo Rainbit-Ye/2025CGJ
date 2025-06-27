@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Feeding : MonoBehaviour
+public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerMoveHandler
 {
     [Header("食物预制体")]
     public GameObject[] foodPrbs;
@@ -10,6 +11,7 @@ public class Feeding : MonoBehaviour
     public float lastTime;
     [Header("惯性")]
     public float force = 2;
+    public GameObject foodImg;
     
     private Vector3 _mousePos;
 
@@ -21,7 +23,7 @@ public class Feeding : MonoBehaviour
     void Start()
     {
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+        foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
         InvokeRepeating("RecordMousePos",0f, lastTime);
     }
 
@@ -40,18 +42,39 @@ public class Feeding : MonoBehaviour
             SwitchFood(t);
         }
 
-        FollowMouse();
+        
+    }
+    
+    #region 喂食UI范围控制
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("OnPointerEnter");
     }
 
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("OnPointerExit");
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        FollowMouse();
+        Debug.Log("OnPointerMove");
+    }
+
+    #endregion
+
+    #region 食物跟随以及生成
     private void FollowMouse()
     {
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+        foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
     }
 
     private void FoodDrop()
     {
-        GameObject food = Instantiate(foodPrbs[_foodIndex], transform.position, Quaternion.identity);
+        GameObject food = Instantiate(foodPrbs[_foodIndex], foodImg.transform.position, Quaternion.identity);
         Vector3 dis = _mousePos - _lastMousePos;
         Rigidbody2D rb = food.GetComponent<Rigidbody2D>();
         rb.AddForce(new Vector2(dis.x,0) * force, ForceMode2D.Impulse);
@@ -80,4 +103,5 @@ public class Feeding : MonoBehaviour
         Debug.Log("_mousePos");
         _lastMousePos = _mousePos;
     }
+    #endregion
 }
