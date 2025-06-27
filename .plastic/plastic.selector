@@ -1,0 +1,4 @@
+repository "Plants@tj_clita@cloud.cn"
+  path "/"
+    br "/main"
+    co "/main"
