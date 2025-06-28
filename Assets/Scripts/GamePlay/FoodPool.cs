@@ -1,43 +1,46 @@
 using System.Collections.Generic;
 using Base;
-using GamePlay;
 using UnityEngine;
-public class FoodPool : Singleton<FoodPool>
+
+namespace GamePlay
 {
-    private Dictionary<GameManagers.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManagers.MonsterType, Queue<GameObject>>();
-    public void CreateFoodPool()
+    public class FoodPool : Singleton<FoodPool>
     {
-        GameManagers g = GameManagers.Ins;
-        for (int i = 0; i < GameManagers.Ins.TypeCount; i++)
+        private Dictionary<GameManager.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManager.MonsterType, Queue<GameObject>>();
+        public void CreateFoodPool()
         {
-            // 为每种类型创建新队列
-            var foodQueue = new Queue<GameObject>();
-        
-            // 填充指定数量的食物
-            for (int j = 0; j < g.foodAmount; j++)
+            GameManager g = GameManager.Ins;
+            for (int i = 0; i < GameManager.Ins.TypeCount; i++)
             {
-                GameObject obj = g.InstantiateObj(GameManagers.Ins.foodPbs[i]);
-                obj.SetActive(false);
-                foodQueue.Enqueue(obj);
+                // 为每种类型创建新队列
+                var foodQueue = new Queue<GameObject>();
+        
+                // 填充指定数量的食物
+                for (int j = 0; j < g.foodAmount; j++)
+                {
+                    GameObject obj = g.InstantiateObj(GameManager.Ins.foodPbs[i]);
+                    obj.SetActive(false);
+                    foodQueue.Enqueue(obj);
+                }
+                _pools.Add((GameManager.MonsterType)i, foodQueue);
             }
-            _pools.Add((GameManagers.MonsterType)i, foodQueue);
         }
-    }
 
-    public GameObject GetFood(GameManagers.MonsterType monsterType)
-    {
-        if (_pools.ContainsKey(monsterType))
+        public GameObject GetFood(GameManager.MonsterType monsterType)
         {
-            GameObject obj = _pools[monsterType].Dequeue();
-            obj.SetActive(true);
-            return obj;
+            if (_pools.ContainsKey(monsterType))
+            {
+                GameObject obj = _pools[monsterType].Dequeue();
+                obj.SetActive(true);
+                return obj;
+            }
+            Debug.Log("没东西了");
+            return null;
         }
-        Debug.Log("没东西了");
-        return null;
-    }
 
-    public void QueueFood(GameManagers.MonsterType monsterType, GameObject obj)
-    {
-        _pools[monsterType].Enqueue(obj);
+        public void QueueFood(GameManager.MonsterType monsterType, GameObject obj)
+        {
+            _pools[monsterType].Enqueue(obj);
+        }
     }
 }

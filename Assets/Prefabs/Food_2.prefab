@@ -163,4 +163,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 1
   foodSprite: {fileID: 21300000, guid: cb177c401686f3840b656281216224b7, type: 3}
-  value: 2
+  value: 5

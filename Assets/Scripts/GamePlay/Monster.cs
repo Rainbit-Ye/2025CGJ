@@ -1,15 +1,17 @@
 using System;
+using Music;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace GamePlay
 {
     public class Monster : MonoBehaviour
     {
-        //todo 根据饥饿程度+变异程度来控制当前怪物的样子
+        //todo 饥饿条
         private enum MonsterMutation
         {
-            Low,
+            Normal,
             Middle,
             High,
         }
@@ -19,19 +21,29 @@ namespace GamePlay
             Sad,
         }
         
-        public GameManagers.MonsterType monsterType;
+        public GameManager.MonsterType monsterType;
         [Header("最大饱食度")]
         public float maxHunger;
+        [Header("下降到什么时候开始提示饥饿值")]
+        public float hungerNotion;
         [Header("间隔多久下降饥饿")]
         public float hungerInterval;
         [Header("每次下降多少饥饿值")]
         public float hungerRateValue;
         [Header("吃到错误的食物增加的变异程度")]
         public float mutationRateValue;
-        [SerializeField]private float _mutationRate;
+
+        [Header("心情气泡Prefabs 也可能是Image")]
+        public GameObject emoBubbleTip;
+        [Header("饥饿倒计时")]
+        public GameObject hungerSlider;
+        
+        private float _mutationRate;
         private float _hunger;
         private MonsterMutation _currentMutation;
-        
+
+        #region 怪物行为状态
+
         //当前饱食度
         public float Hunger
         {
@@ -44,16 +56,15 @@ namespace GamePlay
             InvokeRepeating("ReduceHunger",hungerInterval, hungerInterval);
             Hunger = maxHunger;
         }
-
-        // Update is called once per frame
-        void Update()
-        {
         
-        }
-
         private void ReduceHunger()
         {
             Hunger -= hungerRateValue;
+            if (Hunger <= hungerNotion)
+            {
+                hungerSlider.SetActive(true);
+                SliderGetDown(hungerSlider);
+            }
             if (Hunger <= 0)
             {
                 Death();
@@ -66,8 +77,9 @@ namespace GamePlay
             Destroy(this.gameObject);
         }
 
-        public void GetFood(float value,GameManagers.MonsterType type)
+        public void GetFood(float value,GameManager.MonsterType type)
         {
+            //MusicManager.Ins.MonsterEat();
             if (type != this.monsterType)
             {
                 _mutationRate += mutationRateValue;
@@ -83,6 +95,11 @@ namespace GamePlay
             {
                 Hunger += value;
                 return;
+            }
+
+            if (Hunger > hungerNotion)
+            {
+                hungerSlider.SetActive(false);
             }
             Debug.Log("吃饱了");
         }
@@ -102,6 +119,16 @@ namespace GamePlay
             {
                 Debug.Log("吃人啦");
             }
+        }
+        #endregion
+
+        /// <summary>
+        /// 进度条减少
+        /// </summary>
+        public void SliderGetDown(GameObject slider)
+        {
+            SpriteRenderer spriteRenderer = slider.GetComponent<SpriteRenderer >();
+            spriteRenderer.size = new Vector2(Hunger / maxHunger, spriteRenderer.size.y);
         }
     }
 }

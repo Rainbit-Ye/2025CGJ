@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using GamePlay;
+using Music;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,18 +10,19 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     public float lastTime;
     [Header("惯性")]
     public float force = 2;
+    [Header("当前的食物图标")]
     public GameObject foodImg;
     
     private Vector3 _mousePos;
     private Vector3 _lastMousePos;
     private int _foodIndex = 0;
-    private GameManagers _gameManagers;
+    private GameManager _GameManager;
     private float _time;
-    private Dictionary<GameManagers.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManagers.MonsterType, Queue<GameObject>>();
-    // Start is called before the first frame update
+    private Dictionary<GameManager.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManager.MonsterType, Queue<GameObject>>();
+
     void Start()
     {
-        _gameManagers = GameManagers.Ins;
+        _GameManager = GameManager.Ins;
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Init();
     }
@@ -33,7 +34,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
         InvokeRepeating("RecordMousePos",0f, lastTime);
         FoodPool.Ins.CreateFoodPool();
         
-        Sprite sprite = _gameManagers.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
+        Sprite sprite = _GameManager.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
         foodImg.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
@@ -43,6 +44,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
         if (Input.GetMouseButtonDown(0))
         {
             FoodDrop();
+            //MusicManager.Ins.MouseClick();
             return;
         }
 
@@ -84,7 +86,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
 
     private void FoodDrop()
     {
-        GameObject obj = FoodPool.Ins.GetFood((GameManagers.MonsterType)_foodIndex);
+        GameObject obj = FoodPool.Ins.GetFood((GameManager.MonsterType)_foodIndex);
         obj.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
 
         Food food = obj.GetComponent<Food>();
@@ -98,13 +100,13 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     {
         if (t < 0)
         {
-            _foodIndex = (_foodIndex + 1) % _gameManagers.foodPbs.Length;
+            _foodIndex = (_foodIndex + 1) % _GameManager.foodPbs.Length;
         }
         else
         {
-            _foodIndex = (_foodIndex - 1 + _gameManagers.foodPbs.Length) % _gameManagers.foodPbs.Length;
+            _foodIndex = (_foodIndex - 1 + _GameManager.foodPbs.Length) % _GameManager.foodPbs.Length;
         }
-        Sprite sprite = _gameManagers.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
+        Sprite sprite = _GameManager.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
         foodImg.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 

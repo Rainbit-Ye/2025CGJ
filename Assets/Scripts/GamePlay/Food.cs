@@ -5,7 +5,7 @@ namespace GamePlay
 {
     public class Food : MonoBehaviour
     {
-        public GameManagers.MonsterType monsterType;
+        public GameManager.MonsterType monsterType;
         public Sprite foodSprite;
         public Rigidbody2D RigidBody
         {

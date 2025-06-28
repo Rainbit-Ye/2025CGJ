@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace GamePlay
 {
-    public class GameManagers : SingletonMono<GameManagers>
+    public class GameManager : SingletonMono<GameManager>
     {
         public enum MonsterType
         {
@@ -45,11 +45,6 @@ namespace GamePlay
         /// </summary>
         public void AutoGroupPositions()
         {
-            if (positionGroups == null || positionGroups.Count == 0)
-            {
-                Debug.LogWarning("positionGroups为空，请检查Inspector配置！");
-                return;
-            }
             var currentGroup = positionGroups[_index];
             
             int monsterRandomIndex = Random.Range(0, monsterPfb.Length);
