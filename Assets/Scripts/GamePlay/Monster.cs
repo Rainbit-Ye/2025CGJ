@@ -35,15 +35,20 @@ namespace GamePlay
 
         [Header("心情气泡Prefabs 也可能是Image")]
         public GameObject emoBubbleTip;
+        [Header("心情气泡弹出时间")]
+        public float bubbleTipTime;
         [Header("饥饿倒计时")]
         public GameObject hungerSlider;
         
+        [Header("心情图片")]
+        public Sprite[] emoSprite;
         private float _mutationRate;
         private float _hunger;
         private MonsterMutation _currentMutation;
-
+        private float _time;
+        private Coroutine _hungerCoroutine;
+        private bool _isEating = false;
         #region 怪物行为状态
-
         //当前饱食度
         public float Hunger
         {
@@ -59,9 +64,13 @@ namespace GamePlay
         
         private void ReduceHunger()
         {
+            hungerInterval -= 3;
+            _isEating = false;
             Hunger -= hungerRateValue;
             if (Hunger <= hungerNotion)
             {
+                _hungerCoroutine = GameManager.Ins.TimerBegin(emoBubbleTip,bubbleTipTime);
+                emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[0];
                 hungerSlider.SetActive(true);
                 SliderGetDown(hungerSlider);
             }
@@ -79,6 +88,7 @@ namespace GamePlay
 
         public void GetFood(float value,GameManager.MonsterType type)
         {
+            Eating();
             //MusicManager.Ins.MonsterEat();
             if (type != this.monsterType)
             {
@@ -91,9 +101,22 @@ namespace GamePlay
                     Debug.Log($"变异到{_currentMutation}");
                 }
             }
+
             if (Hunger < maxHunger)
             {
                 Hunger += value;
+
+                if (type != this.monsterType)
+                {
+                    emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[2];
+                }
+                else
+                {
+                    emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[1];
+                }
+                //todo 有miss错误
+                GameManager.Ins.RefashTimer(emoBubbleTip, bubbleTipTime, _hungerCoroutine);
+                _hungerCoroutine = null;
                 return;
             }
 
@@ -123,12 +146,22 @@ namespace GamePlay
         #endregion
 
         /// <summary>
-        /// 进度条减少
+        /// 进度条减少计算
         /// </summary>
-        public void SliderGetDown(GameObject slider)
+        private void SliderGetDown(GameObject slider)
         {
             SpriteRenderer spriteRenderer = slider.GetComponent<SpriteRenderer >();
             spriteRenderer.size = new Vector2(Hunger / maxHunger, spriteRenderer.size.y);
         }
+
+        private void Eating()
+        {
+            if (!_isEating)
+            {
+                _isEating = true;
+                hungerInterval += 3; //增加三秒处于进食zhuangtai
+            }
+        }
+
     }
 }

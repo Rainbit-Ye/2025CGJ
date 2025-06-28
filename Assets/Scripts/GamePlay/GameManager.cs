@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Base;
 using UnityEngine;
@@ -98,6 +99,33 @@ namespace GamePlay
             GameObject obj = Instantiate(prefab, foodPbsParent);
             return obj;
         }
+
+        public Coroutine TimerBegin(GameObject obj,float waitTime)
+        {
+            Coroutine coroutine = StartCoroutine(Timer(obj, waitTime));
+            return coroutine;
+        }
+
+        public void TimerEnd(Coroutine coroutine)
+        {
+            StopCoroutine(coroutine);
+        }
+
+        public void RefashTimer(GameObject obj,float waitTime,Coroutine coroutine)
+        {
+            if(coroutine != null)
+                StopCoroutine(coroutine);
+            TimerBegin(obj, waitTime);
+        }
         
+        private IEnumerator Timer(GameObject obj,float waitTime)
+        {
+            obj.SetActive(true);
+            yield return new WaitForSeconds(waitTime);
+            if (obj != null)
+            {
+                obj.SetActive(false);
+            }
+        }
     }
 }
