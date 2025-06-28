@@ -105,11 +105,11 @@ MonoBehaviour:
   monsterType: 0
   maxHunger: 10
   hungerNotion: 8
-  hungerInterval: 2
-  hungerRateValue: 2
+  hungerInterval: 5
+  hungerRateValue: 1
   mutationRateValue: 0.1
   emoBubbleTip: {fileID: 9034827059671562606}
-  bubbleTipTime: 1
+  bubbleTipTime: 4
   hungerSlider: {fileID: 9189305457028398569}
   emoSprite:
   - {fileID: 21300000, guid: e40955d7f47c01e47955462098667bc3, type: 3}
