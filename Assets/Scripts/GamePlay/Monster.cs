@@ -1,10 +1,24 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GamePlay
 {
     public class Monster : MonoBehaviour
     {
         //todo 根据饥饿程度+变异程度来控制当前怪物的样子
+        private enum MonsterMutation
+        {
+            Low,
+            Middle,
+            High,
+        }
+        private enum MonsterEmo
+        {
+            Happy,
+            Sad,
+        }
+        
         public GameManagers.MonsterType monsterType;
         [Header("最大饱食度")]
         public float maxHunger;
@@ -16,6 +30,7 @@ namespace GamePlay
         public float mutationRateValue;
         [SerializeField]private float _mutationRate;
         private float _hunger;
+        private MonsterMutation _currentMutation;
         
         //当前饱食度
         public float Hunger
@@ -53,17 +68,40 @@ namespace GamePlay
 
         public void GetFood(float value,GameManagers.MonsterType type)
         {
-            Hunger += value;
             if (type != this.monsterType)
             {
                 _mutationRate += mutationRateValue;
-                if (_mutationRate >= 1)
+                Debug.Log("增加变异可能性");
+                float rand = Random.Range(0f, 1f);
+                if (rand < _mutationRate)
                 {
-                    //todo 后续会改成按概率变异
-                    Debug.Log("变异了");
+                    Mutation();
+                    Debug.Log($"变异到{_currentMutation}");
                 }
             }
+            if (Hunger < maxHunger)
+            {
+                Hunger += value;
+                return;
+            }
+            Debug.Log("吃饱了");
         }
-        
+
+        /// <summary>
+        /// 控制变异程度
+        /// </summary>
+        public void Mutation()
+        {
+            if (_currentMutation != MonsterMutation.High)
+            {
+                _mutationRate = 0;
+                _currentMutation = (MonsterMutation)((int)_currentMutation + 1);
+                //todo 可以在这里切换对应形态
+            }
+            else
+            {
+                Debug.Log("吃人啦");
+            }
+        }
     }
 }

@@ -1,29 +1,40 @@
+using System;
 using System.Collections.Generic;
 using Base;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 namespace GamePlay
 {
-    public class GameManagers : SingletonAutoMono<GameManagers>
+    public class GameManagers : SingletonMono<GameManagers>
     {
         public enum MonsterType
         {
             Blue,
             Green,
         }
+        public readonly int TypeCount = Enum.GetValues(typeof(MonsterType)).Length;
         [Header("怪物预制体")]
         public GameObject[] monsterPfb;
         [Header("编号以及生成位置")]
         public List<PositionGroup> positionGroups = new List<PositionGroup>();
         [Header("生成怪物时间间隔")]
         public float monsterInterval;
+        [Header("食物预制体")]
+        public GameObject[] foodPbs;
+        [Header("每种食物的对象池个数")]
+        public int foodAmount;
+        [Header("存放对象池Tansformer")]
+        public Transform foodPbsParent;
+        
         private int _index = 0;
         private int _groupsNum;
+        
         private void Start()
         {
             _groupsNum = positionGroups.Count;
-            InvokeRepeating("AutoGroupPositions", 0, monsterInterval);
+            InvokeRepeating("AutoGroupPositions", 0f, monsterInterval);
         }
 
 
@@ -34,6 +45,11 @@ namespace GamePlay
         /// </summary>
         public void AutoGroupPositions()
         {
+            if (positionGroups == null || positionGroups.Count == 0)
+            {
+                Debug.LogWarning("positionGroups为空，请检查Inspector配置！");
+                return;
+            }
             var currentGroup = positionGroups[_index];
             
             int monsterRandomIndex = Random.Range(0, monsterPfb.Length);
@@ -82,6 +98,11 @@ namespace GamePlay
         }
         #endregion
 
-
+        public GameObject InstantiateObj(GameObject prefab)
+        {
+            GameObject obj = Instantiate(prefab, foodPbsParent);
+            return obj;
+        }
+        
     }
 }

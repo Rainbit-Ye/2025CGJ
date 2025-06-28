@@ -1,4 +1,3 @@
 repository "Plants@tj_clita@cloud.cn"
   path "/"
-    br "/main"
-    co "/main"
+    smartbranch "/main" changeset "5"

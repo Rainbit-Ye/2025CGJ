@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8219626699875381769}
   - component: {fileID: 2046600910641438832}
   - component: {fileID: 8012547420810314755}
-  - component: {fileID: -4797179776637780858}
   - component: {fileID: -9097960909658904464}
+  - component: {fileID: 3613639789186271546}
   m_Layer: 0
   m_Name: Food_2
   m_TagString: Untagged
@@ -114,20 +114,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &-4797179776637780858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4026634889933367395}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36e093f2e9f6cd646882941a86137b3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterType: 1
-  value: 2
 --- !u!58 &-9097960909658904464
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -163,3 +149,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &3613639789186271546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026634889933367395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e093f2e9f6cd646882941a86137b3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterType: 1
+  foodSprite: {fileID: 21300000, guid: cb177c401686f3840b656281216224b7, type: 3}
+  value: 2

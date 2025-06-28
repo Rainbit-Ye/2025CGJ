@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using GamePlay;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerMoveHandler
 {
-    [Header("食物预制体")]
-    public GameObject[] foodPrbs;
     [Header("计算上一次鼠标移动位置间隔时间，从而控制惯性")]
     public float lastTime;
     [Header("惯性")]
@@ -14,17 +13,28 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     public GameObject foodImg;
     
     private Vector3 _mousePos;
-
-    private int _foodIndex = 0;
     private Vector3 _lastMousePos;
-
+    private int _foodIndex = 0;
+    private GameManagers _gameManagers;
     private float _time;
+    private Dictionary<GameManagers.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManagers.MonsterType, Queue<GameObject>>();
     // Start is called before the first frame update
     void Start()
     {
+        _gameManagers = GameManagers.Ins;
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Init();
+    }
+
+    private void Init()
+    {
+        
         foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
         InvokeRepeating("RecordMousePos",0f, lastTime);
+        FoodPool.Ins.CreateFoodPool();
+        
+        Sprite sprite = _gameManagers.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
+        foodImg.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
     // Update is called once per frame
@@ -49,12 +59,12 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OnPointerEnter");
+        foodImg.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("OnPointerExit");
+        foodImg.SetActive(false);
     }
 
     public void OnPointerMove(PointerEventData eventData)
@@ -74,9 +84,12 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
 
     private void FoodDrop()
     {
-        GameObject food = Instantiate(foodPrbs[_foodIndex], foodImg.transform.position, Quaternion.identity);
+        GameObject obj = FoodPool.Ins.GetFood((GameManagers.MonsterType)_foodIndex);
+        obj.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+
+        Food food = obj.GetComponent<Food>();
         Vector3 dis = _mousePos - _lastMousePos;
-        Rigidbody2D rb = food.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb = food.RigidBody;
         rb.AddForce(new Vector2(dis.x,0) * force, ForceMode2D.Impulse);
         //我想写挂载一个有刚体的东西在这里生成预制体
     }
@@ -85,12 +98,14 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     {
         if (t < 0)
         {
-            _foodIndex = (_foodIndex + 1) % foodPrbs.Length;
+            _foodIndex = (_foodIndex + 1) % _gameManagers.foodPbs.Length;
         }
         else
         {
-            _foodIndex = (_foodIndex - 1 + foodPrbs.Length) % foodPrbs.Length;
+            _foodIndex = (_foodIndex - 1 + _gameManagers.foodPbs.Length) % _gameManagers.foodPbs.Length;
         }
+        Sprite sprite = _gameManagers.foodPbs[_foodIndex].GetComponent<Food>().foodSprite;
+        foodImg.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
     private void AddTime(ref float time)
@@ -100,7 +115,6 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
 
     private void RecordMousePos()
     {
-        Debug.Log("_mousePos");
         _lastMousePos = _mousePos;
     }
     #endregion
