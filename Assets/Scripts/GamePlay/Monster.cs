@@ -17,9 +17,11 @@ namespace GamePlay
         }
         private enum MonsterEmo
         {
-            Happy,
-            Sad,
+            Hungry,
+            Eating,
+            Normal,
         }
+        
         
         public GameManager.MonsterType monsterType;
         [Header("最大饱食度")]
@@ -48,6 +50,7 @@ namespace GamePlay
         private float _time;
         private Coroutine _hungerCoroutine;
         private bool _isEating = false;
+        private MonsterEmo _currentEmo = MonsterEmo.Normal;
         #region 怪物行为状态
         //当前饱食度
         public float Hunger
@@ -64,11 +67,17 @@ namespace GamePlay
         
         private void ReduceHunger()
         {
-            hungerInterval -= 3;
-            _isEating = false;
+            if (_currentEmo == MonsterEmo.Eating)
+            {
+                hungerInterval -= 3;
+                _isEating = false;
+                _currentEmo = MonsterEmo.Normal;
+            }
             Hunger -= hungerRateValue;
+            //进入到饥饿状态
             if (Hunger <= hungerNotion)
             {
+                _currentEmo = MonsterEmo.Hungry;
                 _hungerCoroutine = GameManager.Ins.TimerBegin(emoBubbleTip,bubbleTipTime);
                 emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[0];
                 hungerSlider.SetActive(true);
@@ -112,6 +121,7 @@ namespace GamePlay
                 }
                 else
                 {
+                    UIManager.Ins.GetScore();
                     emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[1];
                 }
                 //todo 有miss错误
@@ -159,8 +169,18 @@ namespace GamePlay
             if (!_isEating)
             {
                 _isEating = true;
-                hungerInterval += 3; //增加三秒处于进食zhuangtai
+                hungerInterval += 3; //增加三秒处于进食状态
+                //进入到咀嚼状态
+                _currentEmo = MonsterEmo.Eating;
             }
+        }
+
+        /// <summary>
+        /// 心情状态检测,用来动作切换
+        /// </summary>
+        private void EmoUpDate()
+        {
+            
         }
 
     }

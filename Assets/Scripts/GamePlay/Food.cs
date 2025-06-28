@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace GamePlay
 {
@@ -17,6 +18,9 @@ namespace GamePlay
         [Header("吃到回复饥饿值")]
         public float value;
 
+        [Header("长成新植物的概率 0-1之间")]
+        public float growNewPlantsRate;
+
         private void Awake()
         {
             RigidBody = GetComponent<Rigidbody2D>();
@@ -30,10 +34,27 @@ namespace GamePlay
                 {
                     Monster monster = other.gameObject.GetComponentInParent<Monster>();
                     monster.GetFood(value, monsterType);
-                    
+                }
+
+                if (other.CompareTag("Ground"))
+                {
+                    GrowUpPlants();
                 }
                 this.gameObject.SetActive(false);
                 FoodPool.Ins.QueueFood(monsterType, this.gameObject);
+            }
+        }
+
+        private void GrowUpPlants()
+        {
+            float rand = Random.Range(0f, 1f);
+            Debug.Log(rand+" "+growNewPlantsRate);
+            if (rand < growNewPlantsRate)
+            {
+                GameObject[] objs = GameManager.Ins.monsterPfb;
+                int monsterNum = objs.Length;
+                int randNum = Random.Range(0, monsterNum);
+                Instantiate(GameManager.Ins.monsterPfb[randNum], transform.position, Quaternion.identity);
             }
         }
         

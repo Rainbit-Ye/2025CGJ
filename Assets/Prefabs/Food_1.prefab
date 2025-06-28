@@ -129,6 +129,7 @@ MonoBehaviour:
   monsterType: 0
   foodSprite: {fileID: 21300000, guid: 3f6726f6f2d3e7448aadcec6111240e7, type: 3}
   value: 5
+  growNewPlantsRate: 0.2
 --- !u!58 &-5541229767145296202
 CircleCollider2D:
   m_ObjectHideFlags: 0
