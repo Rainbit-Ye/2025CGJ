@@ -105,7 +105,7 @@ namespace GamePlay
             if (Hunger < maxHunger)
             {
                 Hunger += value;
-
+                SliderGetDown(hungerSlider);
                 if (type != this.monsterType)
                 {
                     emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[2];
@@ -117,13 +117,13 @@ namespace GamePlay
                 //todo 有miss错误
                 GameManager.Ins.RefashTimer(emoBubbleTip, bubbleTipTime, _hungerCoroutine);
                 _hungerCoroutine = null;
+                if (Hunger > hungerNotion)
+                {
+                    hungerSlider.SetActive(false);
+                }
                 return;
             }
-
-            if (Hunger > hungerNotion)
-            {
-                hungerSlider.SetActive(false);
-            }
+            Hunger = maxHunger;
             Debug.Log("吃饱了");
         }
 
@@ -150,7 +150,7 @@ namespace GamePlay
         /// </summary>
         private void SliderGetDown(GameObject slider)
         {
-            SpriteRenderer spriteRenderer = slider.GetComponent<SpriteRenderer >();
+            SpriteRenderer spriteRenderer = slider.GetComponent<SpriteRenderer>();
             spriteRenderer.size = new Vector2(Hunger / maxHunger, spriteRenderer.size.y);
         }
 
