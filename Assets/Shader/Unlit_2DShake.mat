@@ -28,14 +28,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WarpTex:
-        m_Texture: {fileID: 2800000, guid: 50916736d84be5c41ac7d361364c9dd7, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1180e537fab738849b25b5ad861b8e6b, type: 3}
         m_Scale: {x: 1, y: 0.8}
         m_Offset: {x: 0.7, y: 1.45}
     m_Ints: []
     m_Floats:
     - _FrameCount: 4
     - _FrameRate: 2
-    - _Offset: 0.013
-    - _WarpInt: 0.043
+    - _Offset: 0
+    - _WarpInt: 0.017
     m_Colors: []
   m_BuildTextureStacks: []

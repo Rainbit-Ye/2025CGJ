@@ -48,7 +48,6 @@ namespace GamePlay
         private void GrowUpPlants()
         {
             float rand = Random.Range(0f, 1f);
-            Debug.Log(rand+" "+growNewPlantsRate);
             if (rand < growNewPlantsRate)
             {
                 GameObject[] objs = GameManager.Ins.monsterPfb;

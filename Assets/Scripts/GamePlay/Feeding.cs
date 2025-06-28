@@ -12,12 +12,15 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     public float force = 2;
     [Header("当前的食物图标")]
     public GameObject foodImg;
+    [Header("鼠标跟随平滑度")]
+    public float lerpSpeed;
     
     private Vector3 _mousePos;
     private Vector3 _lastMousePos;
     private int _foodIndex = 0;
     private GameManager _GameManager;
     private float _time;
+    private bool _isEnter;
     private Dictionary<GameManager.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManager.MonsterType, Queue<GameObject>>();
 
     void Start()
@@ -54,25 +57,30 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
             SwitchFood(t);
         }
 
-        
+        if (_isEnter)
+        {
+            FollowMouse();
+            Debug.Log("OnPointerMove");
+        }
+        foodImg.SetActive(_isEnter);
     }
     
     #region 喂食UI范围控制
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        foodImg.SetActive(true);
+        _isEnter = true;
+        foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        foodImg.SetActive(false);
+        _isEnter = false;
     }
 
     public void OnPointerMove(PointerEventData eventData)
     {
-        FollowMouse();
-        Debug.Log("OnPointerMove");
+        
     }
 
     #endregion
@@ -81,7 +89,8 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     private void FollowMouse()
     {
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+        Vector3 vector= Vector3.Lerp(foodImg.transform.position,_mousePos,lerpSpeed);
+        foodImg.transform.position = new Vector3(vector.x, vector.y,0);
     }
 
     private void FoodDrop()

@@ -75,9 +75,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.64716977, g: 0.9605818, b: 1, a: 1}
+  m_SortingOrder: 10
+  m_Sprite: {fileID: 21300000, guid: 20acb3376032555488d3579dea4543d8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -126,8 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e093f2e9f6cd646882941a86137b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 0
-  foodSprite: {fileID: 21300000, guid: 3f6726f6f2d3e7448aadcec6111240e7, type: 3}
+  monsterType: 1
+  foodSprite: {fileID: 21300000, guid: 20acb3376032555488d3579dea4543d8, type: 3}
   value: 5
   growNewPlantsRate: 0.2
 --- !u!58 &-5541229767145296202

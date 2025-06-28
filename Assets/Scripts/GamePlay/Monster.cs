@@ -15,7 +15,7 @@ namespace GamePlay
             Middle,
             High,
         }
-        private enum MonsterEmo
+        public enum MonsterEmo
         {
             Hungry,
             Eating,
@@ -35,8 +35,8 @@ namespace GamePlay
         [Header("吃到错误的食物增加的变异程度")]
         public float mutationRateValue;
 
-        [Header("心情气泡Prefabs 也可能是Image")]
-        public GameObject emoBubbleTip;
+        [Header("心情气泡是Image 上面还有一个子类")]
+        public SpriteRenderer emoBubbleTip;
         [Header("心情气泡弹出时间")]
         public float bubbleTipTime;
         [Header("饥饿倒计时")]
@@ -44,6 +44,13 @@ namespace GamePlay
         
         [Header("心情图片")]
         public Sprite[] emoSprite;
+
+        public MonsterEmo EmoType
+        {
+            get { return _currentEmo;}
+            set { _currentEmo = value; }
+        }
+        
         private float _mutationRate;
         private float _hunger;
         private MonsterMutation _currentMutation;
@@ -51,6 +58,9 @@ namespace GamePlay
         private Coroutine _hungerCoroutine;
         private bool _isEating = false;
         private MonsterEmo _currentEmo = MonsterEmo.Normal;
+        private Shader _shader;
+        private Material _material;
+        private GameObject _bubbleParent;
         #region 怪物行为状态
         //当前饱食度
         public float Hunger
@@ -63,6 +73,12 @@ namespace GamePlay
         {
             InvokeRepeating("ReduceHunger",hungerInterval, hungerInterval);
             Hunger = maxHunger;
+            _shader = Shader.Find("Custom/Circle");
+            _material = new Material(_shader);
+            SpriteRenderer sr = hungerSlider.GetComponent<SpriteRenderer>();
+            sr.material = _material;
+            _bubbleParent = emoBubbleTip.transform.parent.gameObject;
+            Debug.Log(_bubbleParent.name);
         }
         
         private void ReduceHunger()
@@ -78,10 +94,10 @@ namespace GamePlay
             if (Hunger <= hungerNotion)
             {
                 _currentEmo = MonsterEmo.Hungry;
-                _hungerCoroutine = GameManager.Ins.TimerBegin(emoBubbleTip,bubbleTipTime);
-                emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[0];
+                SetEmo(0);
+                _bubbleParent.SetActive(true);
                 hungerSlider.SetActive(true);
-                SliderGetDown(hungerSlider);
+                SliderGetDown();
             }
             if (Hunger <= 0)
             {
@@ -114,22 +130,23 @@ namespace GamePlay
             if (Hunger < maxHunger)
             {
                 Hunger += value;
-                SliderGetDown(hungerSlider);
+                SliderGetDown();
                 if (type != this.monsterType)
                 {
-                    emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[2];
+                    _bubbleParent.SetActive(true);
+                    GameManager.Ins.RefashTimer(this,bubbleTipTime,_hungerCoroutine,2);
                 }
                 else
                 {
+                    _bubbleParent.SetActive(true);
                     UIManager.Ins.GetScore();
-                    emoBubbleTip.GetComponent<SpriteRenderer>().sprite = emoSprite[1];
+                    GameManager.Ins.RefashTimer(this,bubbleTipTime,_hungerCoroutine,1);
                 }
-                //todo 有miss错误
-                GameManager.Ins.RefashTimer(emoBubbleTip, bubbleTipTime, _hungerCoroutine);
                 _hungerCoroutine = null;
                 if (Hunger > hungerNotion)
                 {
                     hungerSlider.SetActive(false);
+                    //emoBubbleTip.SetActive(false);
                 }
                 return;
             }
@@ -158,10 +175,10 @@ namespace GamePlay
         /// <summary>
         /// 进度条减少计算
         /// </summary>
-        private void SliderGetDown(GameObject slider)
+        private void SliderGetDown()
         {
-            SpriteRenderer spriteRenderer = slider.GetComponent<SpriteRenderer>();
-            spriteRenderer.size = new Vector2(Hunger / maxHunger, spriteRenderer.size.y);
+            _material.SetColor("_Color",new Color(0.694f, 0.710f, 0.710f));
+            _material.SetFloat("_Progress", 1 - (float)(Hunger / maxHunger));
         }
 
         private void Eating()
@@ -181,6 +198,15 @@ namespace GamePlay
         private void EmoUpDate()
         {
             
+        }
+
+        /// <summary>
+        /// 0-2 0：饥饿 1：高兴 2：悲伤
+        /// </summary>
+        /// <param name="index"></param>
+        public void SetEmo(int index)
+        {
+            emoBubbleTip.sprite = emoSprite[index];
         }
 
     }

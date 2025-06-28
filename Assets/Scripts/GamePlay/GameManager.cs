@@ -12,8 +12,8 @@ namespace GamePlay
     {
         public enum MonsterType
         {
-            Blue,
-            Green,
+            Meat,
+            Finger,
         }
         public readonly int TypeCount = Enum.GetValues(typeof(MonsterType)).Length;
         [Header("怪物预制体")]
@@ -35,10 +35,20 @@ namespace GamePlay
         private void Start()
         {
             _groupsNum = positionGroups.Count;
-            InvokeRepeating("AutoGroupPositions", 0f, monsterInterval);
+            InvokeRepeating("AutoGroupPositions", monsterInterval, monsterInterval);
+            //Init(0, 2);
+            //Init(1,1);
         }
 
-
+        private void Init(int groupsNum, int tfNum)
+        {
+            int monsterRandomIndex = Random.Range(0, monsterPfb.Length);
+            Instantiate(monsterPfb[monsterRandomIndex], positionGroups[groupsNum].monsterTransforms[tfNum].transform.position, Quaternion.identity);
+            var monsterTransform =  positionGroups[groupsNum].monsterTransforms[tfNum];
+            monsterTransform.IsSpawned = true;
+            positionGroups[groupsNum].monsterTransforms[tfNum] = monsterTransform;
+            
+        }
 
         #region 位置生成
         /// <summary>
@@ -47,7 +57,6 @@ namespace GamePlay
         public void AutoGroupPositions()
         {
             var currentGroup = positionGroups[_index];
-            
             int monsterRandomIndex = Random.Range(0, monsterPfb.Length);
             
             for (int i = 0; i < currentGroup.monsterTransforms.Count; i++)
@@ -55,7 +64,6 @@ namespace GamePlay
                 if (!currentGroup.monsterTransforms[i].IsSpawned)
                 {
                     GameObject monster = Instantiate(monsterPfb[monsterRandomIndex], currentGroup.monsterTransforms[i].transform.position, Quaternion.identity);
-                    
                     var monsterTransform = currentGroup.monsterTransforms[i];
                     monsterTransform.IsSpawned = true;
                     currentGroup.monsterTransforms[i] = monsterTransform;
@@ -100,9 +108,9 @@ namespace GamePlay
             return obj;
         }
 
-        public Coroutine TimerBegin(GameObject obj,float waitTime)
+        public Coroutine TimerBegin(Monster monster,float waitTime,int index)
         {
-            Coroutine coroutine = StartCoroutine(Timer(obj, waitTime));
+            Coroutine coroutine = StartCoroutine(Timer(monster, waitTime,index));
             return coroutine;
         }
 
@@ -111,21 +119,26 @@ namespace GamePlay
             StopCoroutine(coroutine);
         }
 
-        public void RefashTimer(GameObject obj,float waitTime,Coroutine coroutine)
+        public void RefashTimer(Monster monster,float waitTime,Coroutine coroutine,int index)
         {
             if(coroutine != null)
                 StopCoroutine(coroutine);
-            TimerBegin(obj, waitTime);
+            TimerBegin(monster, waitTime,index);
         }
         
-        private IEnumerator Timer(GameObject obj,float waitTime)
+        private IEnumerator Timer(Monster monster,float waitTime,int index)
         {
-            obj.SetActive(true);
+            monster.SetEmo(index);
             yield return new WaitForSeconds(waitTime);
-            if (obj != null)
+            if (monster.EmoType.Equals(Monster.MonsterEmo.Hungry))
             {
-                obj.SetActive(false);
+                monster.SetEmo(0);
             }
+            else
+            {
+                monster.emoBubbleTip.transform.parent.gameObject.SetActive(false);
+            }
+            
         }
     }
 }

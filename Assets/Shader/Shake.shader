@@ -70,7 +70,7 @@ Shader "Unlit/2DShake"
                 float frameIndex = fmod(discreteTime, _FrameCount);          // 循环帧索引 [0, _FrameCount-1]
                 
                 // 垂直方向帧动画（假设WarpTex是纵向排列的帧动画图集）
-                o.uv1.y = (frameIndex / _FrameCount) + (o.uv1.y / _FrameCount);
+                o.uv1.x = (frameIndex / _FrameCount) + (o.uv1.x / _FrameCount);
                 return o;
             }
 

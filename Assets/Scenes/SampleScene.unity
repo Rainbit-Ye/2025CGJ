@@ -412,6 +412,7 @@ MonoBehaviour:
   lastTime: 0.2
   force: 1
   foodImg: {fileID: 1826975919}
+  lerpSpeed: 0.1
 --- !u!114 &246467422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,8 +903,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e301e23df3ce6bf4093007cbe9408e28, type: 2}
+  m_sharedMaterial: {fileID: 4085306054806095233, guid: e301e23df3ce6bf4093007cbe9408e28, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1122,7 +1123,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 56ebfc7781b1ecc429f9c9244bfff9e2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1351,7 +1352,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1372,8 +1373,8 @@ Transform:
   m_GameObject: {fileID: 1663451694}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3715, y: -3.9838, z: 0}
-  m_LocalScale: {x: 18.350815, y: 1.1629206, z: 1}
+  m_LocalPosition: {x: 2.2655, y: -4.68, z: 0}
+  m_LocalScale: {x: 51.210846, y: 1.1629206, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
