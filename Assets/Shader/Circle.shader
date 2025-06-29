@@ -1,7 +1,7 @@
 Shader "Custom/Circle"
 {
     Properties {
-        _Progress ("Progress", Range(0,1)) = 0.5
+        _Progress ("Progress", Range(0,1)) = 1
         _Color ("Color", Color) = (1,1,1,1)
         _Smoothness ("Edge Smoothness", Range(0,0.1)) = 0.02
     }

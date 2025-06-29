@@ -98,13 +98,14 @@ namespace GamePlay
                 hungerInterval -= 3;
                 _isEating = false;
                 _currentEmo = MonsterEmo.Normal;
-                
             }
             Hunger -= hungerRateValue;
+            Debug.Log($"{this.name}饿了{Hunger}");
             //进入到饥饿状态
             if (Hunger <= hungerNotion)
             {
                 _currentEmo = MonsterEmo.Hungry;
+                
                 SetEmo(0);
                 _bubbleParent.SetActive(true);
                 hungerSlider.SetActive(true);
@@ -124,12 +125,13 @@ namespace GamePlay
 
         public void GetFood(float value,GameManager.MonsterType type)
         {
+            if(_currentEmo == MonsterEmo.Eating) return;
             Eating();
-            //MusicManager.Ins.MonsterEat();
+            MusicManager.Ins.MonsterEat();
             if (type != this.monsterType)
             {
-                _mutationRate += mutationRateValue;
-                if (hungerInterval > 1)
+                _mutationRate += mutationRateValue * ((int)_currentMutation + 1);
+                if (hungerInterval > 3)
                 {
                     hungerInterval -= hungerReduceTime;
                 }
@@ -163,6 +165,11 @@ namespace GamePlay
                     hungerSlider.SetActive(false);
                     //emoBubbleTip.SetActive(false);
                 }
+
+                if (Hunger > maxHunger)
+                {
+                    Hunger = maxHunger;
+                }
                 return;
             }
             Hunger = maxHunger;
@@ -184,7 +191,11 @@ namespace GamePlay
             {
                 Debug.Log("吃人啦");
             }
-            EmoUpDate();
+            if (_currentMutation == MonsterMutation.High)
+            {
+                MusicManager.Ins.PlayBackgroundMusic(1);
+            }
+            MutationUpDate();
         }
         #endregion
 
@@ -209,9 +220,9 @@ namespace GamePlay
         }
 
         /// <summary>
-        /// 心情状态检测,用来动作切换
+        /// 变异状态检测,用来动作切换
         /// </summary>
-        private void EmoUpDate()
+        private void MutationUpDate()
         {
             switch (_currentMutation)
             {
@@ -240,6 +251,7 @@ namespace GamePlay
         {
             if (_time > hungerInterval)
             {
+                Debug.Log("下降一次");
                 ReduceHunger();
                 _time = 0;
             }

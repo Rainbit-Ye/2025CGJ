@@ -26,8 +26,10 @@ namespace GamePlay
         public GameObject[] foodPbs;
         [Header("每种食物的对象池个数")]
         public int foodAmount;
-        [Header("存放对象池Tansformer")]
+        [Header("存放食物对象池Tansform")]
         public Transform foodPbsParent;
+        [Header("存放植物")]
+        public Transform plantPbsParent;
         
         private int _index = 0;
         private int _groupsNum;
@@ -35,15 +37,54 @@ namespace GamePlay
         private void Start()
         {
             _groupsNum = positionGroups.Count;
+        }
+
+        private void ReStart()
+        {
+            //UIManager.Ins.InitUI();
+            CancelInvoke("AutoGroupPositions");
+            foreach (Transform child in plantPbsParent.transform)
+            {
+                Destroy(child.gameObject);
+            }
+
+            for (int k = 0; k < _groupsNum; k++)
+            {
+                for (int i = 0; i < positionGroups[k].monsterTransforms.Count; i++)
+                {
+                    if (positionGroups[k].monsterTransforms[i].IsSpawned)
+                    {
+                        var monsterTransform = positionGroups[k].monsterTransforms[i];
+                        monsterTransform.IsSpawned = false;
+                        positionGroups[k].monsterTransforms[i] = monsterTransform;
+                    }
+                }
+            }
             InvokeRepeating("AutoGroupPositions", monsterInterval, monsterInterval);
             Init(0, 2);
             Init(1,1);
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ReStart();
+            }
+        }
+
+        public void GameStart()
+        {
+            InvokeRepeating("AutoGroupPositions", monsterInterval, monsterInterval);
+            Init(0, 2);
+            Init(1,1);
+            UIManager.Ins.InitUI();
+        }
         private void Init(int groupsNum, int tfNum)
         {
             int monsterRandomIndex = Random.Range(0, monsterPfb.Length);
-            Instantiate(monsterPfb[monsterRandomIndex], positionGroups[groupsNum].monsterTransforms[tfNum].transform.position, Quaternion.identity);
+            GameObject obj = Instantiate(monsterPfb[monsterRandomIndex], positionGroups[groupsNum].monsterTransforms[tfNum].transform.position, Quaternion.identity);
+            obj.transform.SetParent(plantPbsParent);
             var monsterTransform =  positionGroups[groupsNum].monsterTransforms[tfNum];
             monsterTransform.IsSpawned = true;
             positionGroups[groupsNum].monsterTransforms[tfNum] = monsterTransform;

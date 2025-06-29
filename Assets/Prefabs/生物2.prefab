@@ -101,8 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterType: 0
-  maxHunger: 10
-  hungerNotion: 8
+  maxHunger: 20
+  hungerNotion: 16
   hungerInterval: 10
   hungerRateValue: 2
   mutationRateValue: 0.1

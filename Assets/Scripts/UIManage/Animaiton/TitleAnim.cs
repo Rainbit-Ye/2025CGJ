@@ -17,7 +17,7 @@ namespace UIManage.Animaiton
         public Button startButton;
         private Vector3 _titleOriginalPosition;
         private Vector3 _lineOriginalPosition;
-
+        private Feeding _feeding;
         private void Awake()
         {
             _titleOriginalPosition = titleUI.transform.localPosition;
@@ -26,11 +26,52 @@ namespace UIManage.Animaiton
 
         private void Start()
         {
+            Feeding.isEnable = false;
             // 绑定一个合并后的动画方法
             startButton.onClick.AddListener(PlayCombinedAnimation);
+            PlayTitleScaleAndRotate(titleUI.transform,5);
         }
 
-        // 合并后的动画：先播放标题动画，再播放线条动画
+        private Sequence PlayTitleScaleAndRotate(Transform target, float duration, int loops = -1, LoopType loopType = LoopType.Yoyo)
+        {
+            Sequence scaleRotateSequence = DOTween.Sequence();
+    
+            // ===== 1. 缩放动画（0.65 → 0.6） =====
+            Sequence scaleSequence = DOTween.Sequence();
+            scaleSequence.Append(
+                target.DOScale(new Vector3(0.61f, 0.61f, 0.61f), duration)
+                    .SetEase(Ease.OutQuad)
+            );
+            scaleSequence.Append(
+                target.DOScale(new Vector3(0.6f, 0.6f, 0.6f), duration)
+                    .SetEase(Ease.InQuad)
+            );
+
+            // ===== 2. 旋转动画（流畅循环关键） =====
+            Sequence rotateSequence = DOTween.Sequence();
+            // 第一阶段：从0°旋转到1°（平滑开始）
+            rotateSequence.Append(
+                target.DORotate(new Vector3(0, 0, 1f), duration * 0.5f)
+                    .SetEase(Ease.OutSine)
+            );
+            // 第二阶段：从1°旋转到-1°（平滑转向）
+            rotateSequence.Append(
+                target.DORotate(new Vector3(0, 0, -1f), duration)
+                    .SetEase(Ease.InOutSine)
+            );
+            // 第三阶段：从-1°回到0°（平滑结束）
+            rotateSequence.Append(
+                target.DORotate(Vector3.zero, duration * 0.5f)
+                    .SetEase(Ease.InSine)
+            );
+
+            // ===== 合并动画 =====
+            scaleRotateSequence.Join(scaleSequence);
+            scaleRotateSequence.Join(rotateSequence);
+            scaleRotateSequence.SetLoops(loops, loopType);
+    
+            return scaleRotateSequence;
+        }
         public void PlayCombinedAnimation()
         {
             // 停止所有动画
@@ -60,6 +101,7 @@ namespace UIManage.Animaiton
 
             // 可选：添加回调
             combinedSequence.OnComplete(() => Debug.Log("All animations finished!"));
+            Feeding.isEnable = true;
         }
 
         private void OnDisable()

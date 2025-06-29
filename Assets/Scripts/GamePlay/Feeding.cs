@@ -23,6 +23,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     private bool _isEnter;
     private Dictionary<GameManager.MonsterType, Queue<GameObject>> _pools = new Dictionary<GameManager.MonsterType, Queue<GameObject>>();
 
+    public static bool isEnable = true;
     void Start()
     {
         _GameManager = GameManager.Ins;
@@ -49,7 +50,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
             if (Input.GetMouseButtonDown(0))
             {
                 FoodDrop();
-                //MusicManager.Ins.MouseClick();
+                MusicManager.Ins.MouseClick();
                 return;
             }
 
@@ -69,13 +70,19 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _isEnter = true;
-        foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+        if (isEnable)
+        {
+            _isEnter = true;
+            foodImg.transform.position = new Vector3(_mousePos.x, _mousePos.y, 0);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        _isEnter = false;
+        if (isEnable)
+        {
+            _isEnter = false;
+        }
     }
 
     public void OnPointerMove(PointerEventData eventData)
