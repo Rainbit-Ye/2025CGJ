@@ -117,7 +117,10 @@ namespace GamePlay
             EmoUpDate();
             if (Hunger <= 0)
             {
-                Death();
+                Debug.Log("没血");
+                Mutation();
+                Hunger = InitHunger;
+                Debug.Log($"变异到{_currentMutation}");
             }
         }
 
@@ -145,7 +148,6 @@ namespace GamePlay
                 if (rand < _mutationRate)
                 {
                     Mutation();
-                    Debug.Log($"变异到{_currentMutation}");
                 }
             }
 

@@ -22,6 +22,8 @@ public class UIManager : SingletonMono<UIManager>
     
     [Header("最终结算UI")]
     public GameObject endUI;
+    [Header("喂食UI")]
+    public GameObject feedingUI;
     public TextMeshProUGUI scoreText;
     public int TotalScore
     {
@@ -54,6 +56,7 @@ public class UIManager : SingletonMono<UIManager>
 
     public void StartActor()
     {
+        feedingUI.gameObject.SetActive(true);
         startUI.SetActive(false);
         gamingUI.SetActive(true);
     }

@@ -31,7 +31,7 @@ public class TypewriterEffect : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && isTyping)
         {
-            SkipTyping();
+            SkipToNextSentence(); // 修改：点击直接进入下一句
         }
     }
 
@@ -64,11 +64,24 @@ public class TypewriterEffect : MonoBehaviour
         isTyping = false;
     }
 
-    private void SkipTyping()
+    // 新增方法：直接跳到下一句（清空当前并开始下一句）
+    private void SkipToNextSentence()
     {
         StopTyping();
-        tmpText.text = sentences[currentSentenceIndex];
-        StartCoroutine(ShowNextSentenceAfterDelay(0));
+        currentSentenceIndex++;
+        
+        if (currentSentenceIndex < sentences.Length)
+        {
+            tmpText.text = "";
+            typingCoroutine = StartCoroutine(TypeSingleSentence(sentences[currentSentenceIndex]));
+        }
+        else
+        {
+            if (StartController._isStart)
+            {
+                StartController._isFeeding = true;
+            }
+        }
     }
 
     IEnumerator TypeAllSentences()
@@ -105,16 +118,19 @@ public class TypewriterEffect : MonoBehaviour
         }
         
         isTyping = false;
-    }
 
-    IEnumerator ShowNextSentenceAfterDelay(float delay)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        currentSentenceIndex++;
-        if (currentSentenceIndex < sentences.Length)
+        // 自动进入下一句（带延迟）
+        if (currentSentenceIndex < sentences.Length - 1)
         {
-            tmpText.text = "";
-            typingCoroutine = StartCoroutine(TypeSingleSentence(sentences[currentSentenceIndex]));
+            yield return new WaitForSecondsRealtime(delayBetweenSentences);
+            SkipToNextSentence();
+        }
+        else
+        {
+            if (StartController._isStart)
+            {
+                StartController._isFeeding = true;
+            }
         }
     }
 

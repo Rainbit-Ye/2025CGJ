@@ -32,6 +32,7 @@ namespace GamePlay
         [Header("存放植物")]
         public Transform plantPbsParent;
         
+        [HideInInspector]public int plantSortAmount;
         private int _index = 0;
         private int _groupsNum;
         
@@ -180,10 +181,22 @@ namespace GamePlay
             }
             else
             {
-                if(monster!=null)
+                if (monster != null)
+                {
                     monster.emoBubbleTip.transform.parent.gameObject.SetActive(false);
+                    monster.hungerSlider.SetActive(false);
+                }
             }
-            
+
+        }
+        
+        public void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false; // 在编辑器里停止运行
+#else
+        Application.Quit(); // 在打包后的游戏里退出
+#endif
         }
     }
 }

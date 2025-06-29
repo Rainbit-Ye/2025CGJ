@@ -7,7 +7,9 @@ using UnityEngine;
 public class StartController : MonoBehaviour
 {
     public static bool _isStart = true;
+    public static bool _isFeeding = false;//控制开始页面是否能释放食物
     public GameObject whiteScreen;
+    
     
     private Monster _monster;
     private bool _isEating = false;
@@ -30,6 +32,12 @@ public class StartController : MonoBehaviour
             UIManager.Ins.StartActor();
             this.gameObject.SetActive(false);
             
+        }
+
+        if (_isFeeding)
+        {
+            Debug.Log("Feeding");
+            UIManager.Ins.feedingUI.gameObject.SetActive(true);
         }
     }
 }
