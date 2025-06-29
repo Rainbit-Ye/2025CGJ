@@ -44,26 +44,27 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            FoodDrop();
-            //MusicManager.Ins.MouseClick();
-            return;
-        }
-
-        float t = Input.GetAxis("Mouse ScrollWheel");
-        if (t != 0)
-        {
-            SwitchFood(t);
-        }
-
         if (_isEnter)
         {
+            if (Input.GetMouseButtonDown(0))
+            {
+                FoodDrop();
+                //MusicManager.Ins.MouseClick();
+                return;
+            }
+
+            float t = Input.GetAxis("Mouse ScrollWheel");
+            if (t != 0)
+            {
+                SwitchFood(t);
+            }
+
             FollowMouse();
         }
+
         foodImg.SetActive(_isEnter);
     }
-    
+
     #region 喂食UI范围控制
 
     public void OnPointerEnter(PointerEventData eventData)
