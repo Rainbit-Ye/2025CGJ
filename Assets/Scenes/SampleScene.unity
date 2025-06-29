@@ -2612,7 +2612,7 @@ MonoBehaviour:
     monsterTransforms:
     - transform: {fileID: 187731091}
     - transform: {fileID: 873218966}
-  monsterInterval: 30
+  monsterInterval: 17
   foodPbs:
   - {fileID: 5886544251333394601, guid: 37a7c09139f452e408c63cc0918df306, type: 3}
   - {fileID: 4026634889933367395, guid: c3d171582159a1043b45f72581606d41, type: 3}

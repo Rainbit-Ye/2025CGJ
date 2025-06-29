@@ -103,12 +103,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 0
   maxHunger: 20
-  InitHunger: 10
+  InitHunger: 18
   hungerNotion: 16
-  hungerInterval: 10
-  hungerRateValue: {x: 0, y: 3}
-  mutationRateValue: 0.2
-  hungerReduceTime: 1
+  hungerInterval: 1
+  hungerRateValue: {x: 1, y: 3}
+  mutationRateValue: 0.8
+  hungerReduceTime: 0.15
   emoBubbleTip: {fileID: 1407504757621037593}
   bubbleTipTime: 2.5
   hungerSlider: {fileID: 4414220548524863310}
