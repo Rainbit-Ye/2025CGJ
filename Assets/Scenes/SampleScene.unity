@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 467145411}
   - component: {fileID: 467145410}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -968,7 +968,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1157857503848564091, guid: 4184eb1b5810b4e4795c1e7f3595a660, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1407504757621037593, guid: 4184eb1b5810b4e4795c1e7f3595a660, type: 3}
       propertyPath: m_Sprite
@@ -1417,6 +1417,8 @@ MonoBehaviour:
   startButton: {fileID: 2075911333}
   gamingUI: {fileID: 1187956662}
   startUI: {fileID: 881835391}
+  endUI: {fileID: 1730441627}
+  scoreText: {fileID: 467145410}
 --- !u!1 &873218965
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,12 +2555,12 @@ GameObject:
   - component: {fileID: 1730441630}
   - component: {fileID: 1730441629}
   m_Layer: 5
-  m_Name: Gametitle
+  m_Name: GameOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1730441628
 RectTransform:
   m_ObjectHideFlags: 0
