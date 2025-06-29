@@ -106,10 +106,10 @@ MonoBehaviour:
   hungerNotion: 16
   hungerInterval: 10
   hungerRateValue: 2
-  mutationRateValue: 0.1
+  mutationRateValue: 0.2
   hungerReduceTime: 1
   emoBubbleTip: {fileID: 1407504757621037593}
-  bubbleTipTime: 5
+  bubbleTipTime: 2.5
   hungerSlider: {fileID: 4414220548524863310}
   emoSprite:
   - {fileID: 21300000, guid: 20acb3376032555488d3579dea4543d8, type: 3}
