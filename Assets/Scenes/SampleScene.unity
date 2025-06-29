@@ -489,8 +489,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ed083b04b6a0cc4db7659f4df2a23b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastTime: 0.3
-  force: 3
+  lastTime: 0.25
+  force: 2
   foodImg: {fileID: 1826975919}
   lerpSpeed: 0.1
 --- !u!114 &246467422
