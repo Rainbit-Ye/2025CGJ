@@ -26,6 +26,8 @@ namespace GamePlay
         public GameManager.MonsterType monsterType;
         [Header("最大饱食度")]
         public float maxHunger;
+        [Header("初始饱食度")]
+        public float InitHunger;
         [Header("下降到什么时候开始提示饥饿值")]
         public float hungerNotion;
         [Header("间隔多久下降饥饿")]
@@ -74,7 +76,7 @@ namespace GamePlay
         void Start()
         {
             //InvokeRepeating("ReduceHunger",hungerInterval, hungerInterval);
-            Hunger = maxHunger;
+            Hunger = InitHunger;
             _shader = Shader.Find("Custom/Circle");
             _material = new Material(_shader);
             SpriteRenderer sr = hungerSlider.GetComponent<SpriteRenderer>();
