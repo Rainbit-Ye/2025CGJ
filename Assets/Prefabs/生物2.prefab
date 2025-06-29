@@ -105,7 +105,7 @@ MonoBehaviour:
   maxHunger: 20
   hungerNotion: 16
   hungerInterval: 10
-  hungerRateValue: 2
+  hungerRateValue: {x: 0, y: 3}
   mutationRateValue: 0.2
   hungerReduceTime: 1
   emoBubbleTip: {fileID: 1407504757621037593}
@@ -415,7 +415,7 @@ Transform:
   m_GameObject: {fileID: 8928804920446628880}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.41, z: 0}
+  m_LocalPosition: {x: 0, y: 1.53, z: 0}
   m_LocalScale: {x: 0.608563, y: 0.44729102, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

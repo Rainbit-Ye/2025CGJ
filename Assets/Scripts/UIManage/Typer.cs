@@ -1,54 +1,121 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using Music;
 
 public class TypewriterEffect : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI tmpText; // TextMeshPro组件
+    [SerializeField] private TextMeshProUGUI tmpText;
     [SerializeField] private float charDelay = 0.05f;
     [SerializeField] private float punctuationDelay = 0.3f;
-    [SerializeField] private AudioClip typeSound; // 可选：打字音效
+    [SerializeField] private AudioClip typeSound;
+    [SerializeField] private string[] sentences;
+    [SerializeField] private float delayBetweenSentences = 3f;
 
-    private string fullText;
+    private int currentSentenceIndex = 0;
     private bool isTyping = false;
+    private AudioSource audioSource;
+    private Coroutine typingCoroutine;
 
-    void Start()
+    void OnEnable()
     {
-        fullText = tmpText.text;
-        tmpText.text = "";
-        StartCoroutine(TypeText());
+        Initialize();
+        StartTyping();
+    }
+
+    void OnDisable()
+    {
+        StopTyping();
     }
 
     void Update()
     {
-        // 点击鼠标或屏幕时加速显示
         if (Input.GetMouseButtonDown(0) && isTyping)
         {
-            StopAllCoroutines();
-            tmpText.text = fullText;
-            isTyping = false;
+            SkipTyping();
         }
     }
 
-    IEnumerator TypeText()
+    private void Initialize()
     {
-        isTyping = true;
-        for (int i = 0; i < fullText.Length; i++)
+        currentSentenceIndex = 0;
+        
+        if (audioSource == null)
         {
-            tmpText.text += fullText[i];
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.ignoreListenerPause = true;
+            audioSource.playOnAwake = false;
+        }
+        
+        tmpText.text = "";
+    }
 
-            // 播放音效（可选）
-            if (typeSound != null && !char.IsWhiteSpace(fullText[i]))
-            {
-                
-            }
+    private void StartTyping()
+    {
+        StopTyping();
+        typingCoroutine = StartCoroutine(TypeAllSentences());
+    }
 
-            // 动态延迟
-            float delay = IsPunctuation(fullText[i]) ? punctuationDelay : charDelay;
-            yield return new WaitForSeconds(delay);
+    private void StopTyping()
+    {
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
         }
         isTyping = false;
+    }
+
+    private void SkipTyping()
+    {
+        StopTyping();
+        tmpText.text = sentences[currentSentenceIndex];
+        StartCoroutine(ShowNextSentenceAfterDelay(0));
+    }
+
+    IEnumerator TypeAllSentences()
+    {
+        while (currentSentenceIndex < sentences.Length)
+        {
+            yield return TypeSingleSentence(sentences[currentSentenceIndex]);
+            currentSentenceIndex++;
+            
+            if (currentSentenceIndex < sentences.Length)
+            {
+                yield return new WaitForSecondsRealtime(delayBetweenSentences);
+                tmpText.text = "";
+            }
+        }
+    }
+
+    IEnumerator TypeSingleSentence(string sentence)
+    {
+        isTyping = true;
+        tmpText.text = "";
+        
+        for (int i = 0; i < sentence.Length; i++)
+        {
+            tmpText.text += sentence[i];
+
+            if (typeSound != null && !char.IsWhiteSpace(sentence[i]))
+            {
+                audioSource.PlayOneShot(typeSound);
+            }
+
+            float delay = IsPunctuation(sentence[i]) ? punctuationDelay : charDelay;
+            yield return new WaitForSecondsRealtime(delay);
+        }
+        
+        isTyping = false;
+    }
+
+    IEnumerator ShowNextSentenceAfterDelay(float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+        currentSentenceIndex++;
+        if (currentSentenceIndex < sentences.Length)
+        {
+            tmpText.text = "";
+            typingCoroutine = StartCoroutine(TypeSingleSentence(sentences[currentSentenceIndex]));
+        }
     }
 
     private bool IsPunctuation(char c)

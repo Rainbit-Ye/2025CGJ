@@ -19,6 +19,10 @@ public class UIManager : SingletonMono<UIManager>
 
     [Header("开始拖拽UI")]
     public GameObject startUI;
+    
+    [Header("最终结算UI")]
+    public GameObject endUI;
+    public TextMeshProUGUI scoreText;
     public int TotalScore
     {
         get { return _totalScore; }
@@ -36,6 +40,7 @@ public class UIManager : SingletonMono<UIManager>
     public void InitUI()
     {
         _scoreText.text = "";
+        TotalScore = 0;
     }
 
     /// <summary>
@@ -51,5 +56,12 @@ public class UIManager : SingletonMono<UIManager>
     {
         startUI.SetActive(false);
         gamingUI.SetActive(true);
+    }
+
+    public void EndActor()
+    {
+        scoreText.text = TotalScore.ToString();
+        endUI.SetActive(true);
+        Time.timeScale = 0;
     }
 }

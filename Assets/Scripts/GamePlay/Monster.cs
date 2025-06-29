@@ -122,6 +122,7 @@ namespace GamePlay
         private void Death()
         {
             this.gameObject.SetActive(false);
+            UIManager.Ins.EndActor();
             //Destroy(this.gameObject);
         }
 
@@ -191,7 +192,7 @@ namespace GamePlay
             }
             else
             {
-                Debug.Log("吃人啦");
+                UIManager.Ins.EndActor();
             }
             if (_currentMutation == MonsterMutation.High)
             {
@@ -272,7 +273,6 @@ namespace GamePlay
         {
             if (_time > hungerInterval)
             {
-                Debug.Log("下降一次");
                 ReduceHunger();
                 _time = 0;
             }

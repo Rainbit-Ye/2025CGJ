@@ -14,7 +14,7 @@ namespace GamePlay
             set { _rb = value; }
         }
         private Rigidbody2D _rb;
-        
+        private int _growNum;
         [Header("吃到回复饥饿值")]
         public float value;
 
@@ -53,7 +53,10 @@ namespace GamePlay
                 GameObject[] objs = GameManager.Ins.monsterPfb;
                 int monsterNum = objs.Length;
                 int randNum = Random.Range(0, monsterNum);
-                Instantiate(GameManager.Ins.monsterPfb[randNum], transform.position, Quaternion.identity);
+                GameObject obj = Instantiate(GameManager.Ins.monsterPfb[randNum], transform.position, Quaternion.identity);
+                obj.transform.SetParent(GameManager.Ins.plantPbsParent);
+                _growNum += 6;
+                obj.GetComponent<SpriteRenderer>().sortingOrder = _growNum;
             }
         }
         

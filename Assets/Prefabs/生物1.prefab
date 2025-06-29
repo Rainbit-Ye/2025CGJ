@@ -106,7 +106,7 @@ MonoBehaviour:
   maxHunger: 20
   hungerNotion: 12
   hungerInterval: 5
-  hungerRateValue: 1
+  hungerRateValue: {x: 0, y: 3}
   mutationRateValue: 0.2
   hungerReduceTime: 1
   emoBubbleTip: {fileID: 9151269274899756687}

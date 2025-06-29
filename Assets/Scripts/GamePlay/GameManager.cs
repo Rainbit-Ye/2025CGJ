@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Base;
+using Music;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
@@ -39,9 +40,11 @@ namespace GamePlay
             _groupsNum = positionGroups.Count;
         }
 
-        private void ReStart()
+        public void ReStart()
         {
-            //UIManager.Ins.InitUI();
+            Time.timeScale = 1;
+            MusicManager.Ins.PlayBackgroundMusic(0);
+            UIManager.Ins.InitUI();
             CancelInvoke("AutoGroupPositions");
             foreach (Transform child in plantPbsParent.transform)
             {
@@ -177,7 +180,8 @@ namespace GamePlay
             }
             else
             {
-                monster.emoBubbleTip.transform.parent.gameObject.SetActive(false);
+                if(monster!=null)
+                    monster.emoBubbleTip.transform.parent.gameObject.SetActive(false);
             }
             
         }
