@@ -102,6 +102,7 @@ namespace UIManage.Animaiton
             // 可选：添加回调
             combinedSequence.OnComplete(() => Debug.Log("All animations finished!"));
             Feeding.isEnable = true;
+            StartController._isStart = false;
         }
 
         private void OnDisable()

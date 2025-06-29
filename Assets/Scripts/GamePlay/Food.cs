@@ -36,7 +36,7 @@ namespace GamePlay
                     monster.GetFood(value, monsterType);
                 }
 
-                if (other.CompareTag("Ground"))
+                if (other.CompareTag("Ground") && !StartController._isStart)
                 {
                     GrowUpPlants();
                 }

@@ -29,6 +29,7 @@ public class StartController : MonoBehaviour
             whiteScreen.SetActive(false);
             UIManager.Ins.StartActor();
             this.gameObject.SetActive(false);
+            
         }
     }
 }

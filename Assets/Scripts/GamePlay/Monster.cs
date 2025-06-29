@@ -30,8 +30,8 @@ namespace GamePlay
         public float hungerNotion;
         [Header("间隔多久下降饥饿")]
         public float hungerInterval;
-        [Header("每次下降多少饥饿值")]
-        public float hungerRateValue;
+        [Header("每次下降多少饥饿值 x:最小，y：最大")]
+        public Vector2 hungerRateValue;
         [Header("吃到错误的食物增加的变异程度")]
         public float mutationRateValue;
         [Header("喂错变得饥饿更快（间隔下降饥饿时间减少多少）")]
@@ -96,7 +96,8 @@ namespace GamePlay
                 _isEating = false;
                 _currentEmo = MonsterEmo.Normal;
             }
-            Hunger -= hungerRateValue;
+            float hungerReduce = Random.Range(hungerRateValue.x, hungerRateValue.y);
+            Hunger -= hungerReduce;
             //进入到饥饿状态
             if (Hunger <= hungerNotion)
             {
