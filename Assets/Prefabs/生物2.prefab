@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.6432152, y: 2.235681, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8765833302989974164}
@@ -100,19 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e361d5354ca9e44a8d977d9e732d7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 1
+  monsterType: 0
   maxHunger: 10
   hungerNotion: 8
   hungerInterval: 10
   hungerRateValue: 2
   mutationRateValue: 0.1
+  hungerReduceTime: 1
   emoBubbleTip: {fileID: 1407504757621037593}
   bubbleTipTime: 5
   hungerSlider: {fileID: 4414220548524863310}
+  pinterSprite: {fileID: 4154217515588138304}
   emoSprite:
   - {fileID: 21300000, guid: 20acb3376032555488d3579dea4543d8, type: 3}
   - {fileID: 21300000, guid: 9a88b1ae8be1bb54fa910f0dc66cde6a, type: 3}
   - {fileID: 21300000, guid: 70ab455383ee20e43bac7debf321f0a6, type: 3}
+  stateSprite:
+  - {fileID: 21300000, guid: cbb01f75355abd6408fd703300849af2, type: 3}
+  - {fileID: 21300000, guid: 04e519df006ad3c4e8d1df1542cccede, type: 3}
+  - {fileID: 21300000, guid: f91932195ddd3e843a379f126a31cd72, type: 3}
 --- !u!1 &2864106953873657057
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +135,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5708410313649747890
 Transform:
   m_ObjectHideFlags: 0
@@ -139,8 +145,8 @@ Transform:
   m_GameObject: {fileID: 2864106953873657057}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.70000005, y: 0.95531917, z: 0}
-  m_LocalScale: {x: 0.608563, y: 0.44729102, z: 1}
+  m_LocalPosition: {x: 1.4700001, y: 2.9003193, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 544685379842271652}
@@ -214,7 +220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8631105455973557955
 Transform:
   m_ObjectHideFlags: 0
@@ -224,9 +230,9 @@ Transform:
   m_GameObject: {fileID: 4414220548524863310}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0.975, z: 0}
-  m_LocalScale: {x: 0.4259941, y: 0.3131038, z: 0.7}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 1.47, y: 2.96, z: 0}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8983441319508664508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -378,7 +384,7 @@ GameObject:
   - component: {fileID: 2972087872591696047}
   m_Layer: 0
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -392,7 +398,7 @@ Transform:
   m_GameObject: {fileID: 8928804920446628880}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.741, z: 0}
+  m_LocalPosition: {x: 0, y: 1.87, z: 0}
   m_LocalScale: {x: 0.608563, y: 0.44729102, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -432,4 +438,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.13
+  m_Radius: 0.27

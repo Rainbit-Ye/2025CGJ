@@ -100,19 +100,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e361d5354ca9e44a8d977d9e732d7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterType: 0
+  monsterType: 1
   maxHunger: 10
   hungerNotion: 8
   hungerInterval: 5
   hungerRateValue: 1
   mutationRateValue: 0.1
+  hungerReduceTime: 1
   emoBubbleTip: {fileID: 9151269274899756687}
   bubbleTipTime: 4
   hungerSlider: {fileID: 3896370281963250040}
+  pinterSprite: {fileID: 7915037604736656558}
   emoSprite:
   - {fileID: 21300000, guid: 504b26e30bc7d2e439db0314ec76b783, type: 3}
   - {fileID: 21300000, guid: 9a88b1ae8be1bb54fa910f0dc66cde6a, type: 3}
   - {fileID: 21300000, guid: 70ab455383ee20e43bac7debf321f0a6, type: 3}
+  stateSprite:
+  - {fileID: 21300000, guid: 51cecdef63a369549accc6858352b0dd, type: 3}
+  - {fileID: 21300000, guid: a745064d50c0d7743abd58e2daed4579, type: 3}
+  - {fileID: 21300000, guid: bf8c27a50eb687140b65d1fbfeb4b005, type: 3}
 --- !u!1 &3896370281963250040
 GameObject:
   m_ObjectHideFlags: 0

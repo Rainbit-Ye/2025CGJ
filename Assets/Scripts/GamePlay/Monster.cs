@@ -34,6 +34,8 @@ namespace GamePlay
         public float hungerRateValue;
         [Header("吃到错误的食物增加的变异程度")]
         public float mutationRateValue;
+        [Header("喂错变得饥饿更快（间隔下降饥饿时间减少多少）")]
+        public float hungerReduceTime;
 
         [Header("心情气泡是Image 上面还有一个子类")]
         public SpriteRenderer emoBubbleTip;
@@ -41,9 +43,13 @@ namespace GamePlay
         public float bubbleTipTime;
         [Header("饥饿倒计时")]
         public GameObject hungerSlider;
+        [Header("立绘UI")]
+        public SpriteRenderer pinterSprite;
         
         [Header("心情图片")]
         public Sprite[] emoSprite;
+        [Header("状态动画")]
+        public Sprite[] stateSprite;
 
         public MonsterEmo EmoType
         {
@@ -71,16 +77,20 @@ namespace GamePlay
         // Start is called before the first frame update
         void Start()
         {
-            InvokeRepeating("ReduceHunger",hungerInterval, hungerInterval);
+            //InvokeRepeating("ReduceHunger",hungerInterval, hungerInterval);
             Hunger = maxHunger;
             _shader = Shader.Find("Custom/Circle");
             _material = new Material(_shader);
             SpriteRenderer sr = hungerSlider.GetComponent<SpriteRenderer>();
             sr.material = _material;
             _bubbleParent = emoBubbleTip.transform.parent.gameObject;
-            Debug.Log(_bubbleParent.name);
         }
-        
+
+        private void Update()
+        {
+            UpdateRefreshTimer();
+        }
+
         private void ReduceHunger()
         {
             if (_currentEmo == MonsterEmo.Eating)
@@ -88,6 +98,7 @@ namespace GamePlay
                 hungerInterval -= 3;
                 _isEating = false;
                 _currentEmo = MonsterEmo.Normal;
+                
             }
             Hunger -= hungerRateValue;
             //进入到饥饿状态
@@ -107,8 +118,8 @@ namespace GamePlay
 
         private void Death()
         {
-            Debug.Log($"{monsterType} 饿死了");
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
+            //Destroy(this.gameObject);
         }
 
         public void GetFood(float value,GameManager.MonsterType type)
@@ -118,6 +129,10 @@ namespace GamePlay
             if (type != this.monsterType)
             {
                 _mutationRate += mutationRateValue;
+                if (hungerInterval > 1)
+                {
+                    hungerInterval -= hungerReduceTime;
+                }
                 Debug.Log("增加变异可能性");
                 float rand = Random.Range(0f, 1f);
                 if (rand < _mutationRate)
@@ -169,6 +184,7 @@ namespace GamePlay
             {
                 Debug.Log("吃人啦");
             }
+            EmoUpDate();
         }
         #endregion
 
@@ -197,7 +213,18 @@ namespace GamePlay
         /// </summary>
         private void EmoUpDate()
         {
-            
+            switch (_currentMutation)
+            {
+                case MonsterMutation.Normal:
+                    pinterSprite.sprite = stateSprite[0];
+                    break;
+                case MonsterMutation.Middle:
+                    pinterSprite.sprite = stateSprite[1];
+                    break;
+                case MonsterMutation.High:
+                    pinterSprite.sprite = stateSprite[2];
+                    break;
+            }
         }
 
         /// <summary>
@@ -207,6 +234,21 @@ namespace GamePlay
         public void SetEmo(int index)
         {
             emoBubbleTip.sprite = emoSprite[index];
+        }
+
+        private void UpdateRefreshTimer()
+        {
+            if (_time > hungerInterval)
+            {
+                ReduceHunger();
+                _time = 0;
+            }
+            AddTime(ref _time);
+        }
+        
+        private void AddTime(ref float time)
+        {
+            time += Time.deltaTime;
         }
 
     }

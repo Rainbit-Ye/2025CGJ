@@ -12,8 +12,8 @@ namespace GamePlay
     {
         public enum MonsterType
         {
-            Meat,
-            Finger,
+            Finger = 0,
+            Meat = 1,
         }
         public readonly int TypeCount = Enum.GetValues(typeof(MonsterType)).Length;
         [Header("怪物预制体")]
@@ -36,8 +36,8 @@ namespace GamePlay
         {
             _groupsNum = positionGroups.Count;
             InvokeRepeating("AutoGroupPositions", monsterInterval, monsterInterval);
-            //Init(0, 2);
-            //Init(1,1);
+            Init(0, 2);
+            Init(1,1);
         }
 
         private void Init(int groupsNum, int tfNum)

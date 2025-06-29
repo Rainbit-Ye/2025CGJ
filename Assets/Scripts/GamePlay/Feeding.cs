@@ -60,7 +60,6 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
         if (_isEnter)
         {
             FollowMouse();
-            Debug.Log("OnPointerMove");
         }
         foodImg.SetActive(_isEnter);
     }
@@ -119,10 +118,7 @@ public class Feeding : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IP
         foodImg.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 
-    private void AddTime(ref float time)
-    {
-        time += Time.deltaTime;
-    }
+
 
     private void RecordMousePos()
     {

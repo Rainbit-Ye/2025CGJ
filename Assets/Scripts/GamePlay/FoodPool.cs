@@ -31,6 +31,7 @@ namespace GamePlay
             if (_pools.ContainsKey(monsterType))
             {
                 GameObject obj = _pools[monsterType].Dequeue();
+                Debug.Log(_pools[monsterType].Count);
                 obj.SetActive(true);
                 return obj;
             }
