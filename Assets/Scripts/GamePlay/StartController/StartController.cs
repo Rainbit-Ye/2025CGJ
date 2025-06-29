@@ -19,7 +19,6 @@ public class StartController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_monster.EmoType);
         if (_monster.EmoType == Monster.MonsterEmo.Eating)
         {
             _isEating = true;

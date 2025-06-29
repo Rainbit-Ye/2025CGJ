@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8259312340903004649}
   - component: {fileID: 7915037604736656558}
   - component: {fileID: 3195691710945677014}
+  - component: {fileID: 5880552548337281124}
   m_Layer: 0
   m_Name: "\u751F\u72691"
   m_TagString: Monster
@@ -27,13 +28,14 @@ Transform:
   m_GameObject: {fileID: 1833394558514781822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.24, y: -3.05, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.474, y: 1.5417, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6072467402870023898}
   - {fileID: 6429504489398953102}
   - {fileID: 8743880049742181726}
+  - {fileID: 6577259781770765153}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7915037604736656558
@@ -56,7 +58,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: fb7ef8de57d2d714a8a014c60838bdf4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 51cecdef63a369549accc6858352b0dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20e7033b39ae64e4891e342198650b7b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterType: 1
   maxHunger: 20
-  hungerNotion: 16
+  hungerNotion: 12
   hungerInterval: 5
   hungerRateValue: 1
   mutationRateValue: 0.1
@@ -110,15 +112,98 @@ MonoBehaviour:
   emoBubbleTip: {fileID: 9151269274899756687}
   bubbleTipTime: 4
   hungerSlider: {fileID: 3896370281963250040}
-  pinterSprite: {fileID: 7915037604736656558}
   emoSprite:
   - {fileID: 21300000, guid: 504b26e30bc7d2e439db0314ec76b783, type: 3}
   - {fileID: 21300000, guid: 9a88b1ae8be1bb54fa910f0dc66cde6a, type: 3}
   - {fileID: 21300000, guid: 70ab455383ee20e43bac7debf321f0a6, type: 3}
-  stateSprite:
-  - {fileID: 21300000, guid: 51cecdef63a369549accc6858352b0dd, type: 3}
-  - {fileID: 21300000, guid: a745064d50c0d7743abd58e2daed4579, type: 3}
-  - {fileID: 21300000, guid: bf8c27a50eb687140b65d1fbfeb4b005, type: 3}
+--- !u!95 &5880552548337281124
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833394558514781822}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 01c018c8a2dc5db4cbb19b4984eee9a2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2441298786879170103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6577259781770765153}
+  - component: {fileID: 6864517822729541782}
+  m_Layer: 0
+  m_Name: Circle (1)
+  m_TagString: Monster
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6577259781770765153
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441298786879170103}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.067, y: -0.406, z: 0}
+  m_LocalScale: {x: 0.6784261, y: 0.6486346, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8259312340903004649}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6864517822729541782
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2441298786879170103}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.19
 --- !u!1 &3896370281963250040
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +230,7 @@ Transform:
   m_GameObject: {fileID: 3896370281963250040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0583446, y: 1.242784, z: 0}
+  m_LocalPosition: {x: 1.09, y: 1.32, z: 0}
   m_LocalScale: {x: 0.47489825, y: 0.45404422, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -229,7 +314,7 @@ Transform:
   m_GameObject: {fileID: 8319115288794893900}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.0583446, y: 1.214244, z: 0}
+  m_LocalPosition: {x: 1.09, y: 1.2800002, z: 0}
   m_LocalScale: {x: 0.6784261, y: 0.6486346, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -314,7 +399,7 @@ Transform:
   m_GameObject: {fileID: 8912256714002387901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.079, y: 0.75, z: 0}
+  m_LocalPosition: {x: 0.067, y: -0.08, z: 0}
   m_LocalScale: {x: 0.6784261, y: 0.6486346, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

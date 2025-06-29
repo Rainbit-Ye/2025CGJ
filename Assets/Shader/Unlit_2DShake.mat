@@ -33,9 +33,9 @@ Material:
         m_Offset: {x: 0.7, y: 1.45}
     m_Ints: []
     m_Floats:
-    - _FrameCount: 4
-    - _FrameRate: 2
+    - _FrameCount: 8
+    - _FrameRate: 4
     - _Offset: 0
-    - _WarpInt: 0.017
+    - _WarpInt: 0.023
     m_Colors: []
   m_BuildTextureStacks: []

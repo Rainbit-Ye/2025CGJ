@@ -17,9 +17,9 @@ namespace GamePlay
         }
         public enum MonsterEmo
         {
-            Hungry,
             Eating,
             Normal,
+            Hungry,
         }
         
         
@@ -43,20 +43,16 @@ namespace GamePlay
         public float bubbleTipTime;
         [Header("饥饿倒计时")]
         public GameObject hungerSlider;
-        [Header("立绘UI")]
-        public SpriteRenderer pinterSprite;
         
         [Header("心情图片")]
         public Sprite[] emoSprite;
-        [Header("状态动画")]
-        public Sprite[] stateSprite;
+        
 
         public MonsterEmo EmoType
         {
             get { return _currentEmo;}
-            set { _currentEmo = value; }
         }
-        
+        private Animator _stateAnim;
         private float _mutationRate;
         private float _hunger;
         private MonsterMutation _currentMutation;
@@ -84,6 +80,7 @@ namespace GamePlay
             SpriteRenderer sr = hungerSlider.GetComponent<SpriteRenderer>();
             sr.material = _material;
             _bubbleParent = emoBubbleTip.transform.parent.gameObject;
+            _stateAnim = GetComponent<Animator>();
         }
 
         private void Update()
@@ -100,17 +97,21 @@ namespace GamePlay
                 _currentEmo = MonsterEmo.Normal;
             }
             Hunger -= hungerRateValue;
-            Debug.Log($"{this.name}饿了{Hunger}");
             //进入到饥饿状态
             if (Hunger <= hungerNotion)
             {
                 _currentEmo = MonsterEmo.Hungry;
-                
                 SetEmo(0);
                 _bubbleParent.SetActive(true);
                 hungerSlider.SetActive(true);
                 SliderGetDown();
             }
+            // else
+            // {
+            //     if(_currentEmo == MonsterEmo.Hungry)
+            //     _currentEmo = MonsterEmo.Normal;
+            // }
+            EmoUpDate();
             if (Hunger <= 0)
             {
                 Death();
@@ -216,6 +217,7 @@ namespace GamePlay
                 hungerInterval += 3; //增加三秒处于进食状态
                 //进入到咀嚼状态
                 _currentEmo = MonsterEmo.Eating;
+                EmoUpDate();
             }
         }
 
@@ -227,13 +229,13 @@ namespace GamePlay
             switch (_currentMutation)
             {
                 case MonsterMutation.Normal:
-                    pinterSprite.sprite = stateSprite[0];
+                    _stateAnim.SetInteger("MonsterLevel",0);
                     break;
                 case MonsterMutation.Middle:
-                    pinterSprite.sprite = stateSprite[1];
+                    _stateAnim.SetInteger("MonsterLevel",1);
                     break;
                 case MonsterMutation.High:
-                    pinterSprite.sprite = stateSprite[2];
+                    _stateAnim.SetInteger("MonsterLevel",2);
                     break;
             }
         }
@@ -245,6 +247,24 @@ namespace GamePlay
         public void SetEmo(int index)
         {
             emoBubbleTip.sprite = emoSprite[index];
+            //_stateAnim.SetInteger("MonsterEmo",index);
+        }
+        
+        private void EmoUpDate()
+        {
+            Debug.Log(_currentEmo.ToString());
+            switch (_currentEmo)
+            {
+                case MonsterEmo.Eating:
+                    _stateAnim.SetInteger("MonsterEmo",0);
+                    break;
+                case MonsterEmo.Normal:
+                    _stateAnim.SetInteger("MonsterEmo",1);
+                    break;
+                case MonsterEmo.Hungry:
+                    _stateAnim.SetInteger("MonsterEmo",2);
+                    break;
+            }
         }
 
         private void UpdateRefreshTimer()
@@ -263,5 +283,10 @@ namespace GamePlay
             time += Time.deltaTime;
         }
 
+        public void TurnToNormal()
+        {
+            // _currentEmo = MonsterEmo.Normal;
+            // EmoUpDate();
+        }
     }
 }
