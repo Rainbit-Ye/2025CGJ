@@ -21,6 +21,8 @@ public class UIManager : SingletonMono<UIManager>
     public GameObject endUI;
     [Header("喂食UI")]
     public GameObject feedingUI;
+    [Header("变色UI")]
+    public Image colorUI;
     public TextMeshProUGUI scoreText;
     public int TotalScore
     {
@@ -40,6 +42,7 @@ public class UIManager : SingletonMono<UIManager>
     {
         _scoreText.text = "";
         TotalScore = 0;
+        SetImageAlpha(0);
     }
 
     /// <summary>
@@ -64,4 +67,15 @@ public class UIManager : SingletonMono<UIManager>
         endUI.SetActive(true);
         Time.timeScale = 0;
     }
+    
+    public void SetImageAlpha(float alpha)
+    {
+        if (colorUI != null)
+        {
+            Color color = colorUI.color;
+            color.a = Mathf.Clamp01(alpha);  // 限制在0~1之间
+            colorUI.color = color;
+        }
+    }
+
 }

@@ -36,9 +36,6 @@ public class StartController : MonoBehaviour
             UIManager.Ins.feedingUI.gameObject.SetActive(false);
             UIManager.Ins.StartActor();
             this.gameObject.SetActive(false);
-            
         }
-
-
     }
 }

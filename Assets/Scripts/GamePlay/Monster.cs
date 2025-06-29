@@ -117,10 +117,8 @@ namespace GamePlay
             EmoUpDate();
             if (Hunger <= 0)
             {
-                Debug.Log("没血");
                 Mutation();
                 Hunger = InitHunger;
-                Debug.Log($"变异到{_currentMutation}");
             }
         }
 
@@ -192,6 +190,7 @@ namespace GamePlay
             {
                 _mutationRate = 0;
                 _currentMutation = (MonsterMutation)((int)_currentMutation + 1);
+                UIManager.Ins.SetImageAlpha(0.2f);
                 //todo 可以在这里切换对应形态
             }
             else
@@ -201,6 +200,7 @@ namespace GamePlay
             if (_currentMutation == MonsterMutation.High)
             {
                 MusicManager.Ins.PlayBackgroundMusic(1);
+                UIManager.Ins.SetImageAlpha(1);
             }
             MutationUpDate();
         }
@@ -258,7 +258,6 @@ namespace GamePlay
         
         private void EmoUpDate()
         {
-            Debug.Log(_currentEmo.ToString());
             switch (_currentEmo)
             {
                 case MonsterEmo.Eating:
