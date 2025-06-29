@@ -25,19 +25,20 @@ public class StartController : MonoBehaviour
         {
             _isEating = true;
         }
-
-        if (_monster.EmoType != Monster.MonsterEmo.Eating && _isEating)
-        {
-            whiteScreen.SetActive(false);
-            UIManager.Ins.StartActor();
-            this.gameObject.SetActive(false);
-            
-        }
-
         if (_isFeeding)
         {
             Debug.Log("Feeding");
             UIManager.Ins.feedingUI.gameObject.SetActive(true);
         }
+        if (_monster.EmoType != Monster.MonsterEmo.Eating && _isEating)
+        {
+            whiteScreen.SetActive(false);
+            UIManager.Ins.feedingUI.gameObject.SetActive(false);
+            UIManager.Ins.StartActor();
+            this.gameObject.SetActive(false);
+            
+        }
+
+
     }
 }

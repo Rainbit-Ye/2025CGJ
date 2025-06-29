@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Base;
 using GamePlay;
 using TMPro;
@@ -56,7 +53,7 @@ public class UIManager : SingletonMono<UIManager>
 
     public void StartActor()
     {
-        feedingUI.gameObject.SetActive(true);
+        
         startUI.SetActive(false);
         gamingUI.SetActive(true);
     }
