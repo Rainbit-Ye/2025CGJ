@@ -47,9 +47,10 @@ namespace GamePlay
             MusicManager.Ins.PlayBackgroundMusic(0);
             UIManager.Ins.InitUI();
             CancelInvoke("AutoGroupPositions");
-            foreach (Transform child in plantPbsParent.transform)
+            Monster[] monsters = FindObjectsOfType<Monster>();
+            foreach (Monster monster in monsters)
             {
-                Destroy(child.gameObject);
+                Destroy(monster.gameObject);
             }
 
             for (int k = 0; k < _groupsNum; k++)

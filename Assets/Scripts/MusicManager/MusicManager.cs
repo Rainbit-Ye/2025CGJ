@@ -38,8 +38,11 @@ namespace Music
 
         public void PlayBackgroundMusic(int index)
         {
-            _backgroundMusic.clip = backgroundClips[index];
-            _backgroundMusic.Play();
+            if (_backgroundMusic.clip != backgroundClips[index])
+            {
+                _backgroundMusic.clip = backgroundClips[index];
+                _backgroundMusic.Play();
+            }
         }
         public void MouseClick()
         {

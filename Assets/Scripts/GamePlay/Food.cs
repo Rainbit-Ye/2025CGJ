@@ -53,7 +53,7 @@ namespace GamePlay
                 GameObject[] objs = GameManager.Ins.monsterPfb;
                 int monsterNum = objs.Length;
                 int randNum = Random.Range(0, monsterNum);
-                GameObject obj = Instantiate(GameManager.Ins.monsterPfb[randNum], transform.position, Quaternion.identity);
+                GameObject obj = Instantiate(GameManager.Ins.monsterPfb[randNum], transform.position, Quaternion.identity, GameManager.Ins.plantPbsParent);
                 obj.transform.SetParent(GameManager.Ins.plantPbsParent);
                 GameManager.Ins.plantSortAmount += 6;
                 obj.GetComponent<SpriteRenderer>().sortingOrder = GameManager.Ins.plantSortAmount;
